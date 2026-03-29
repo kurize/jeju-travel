@@ -1,26 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Caveat:wght@400;500;600;700&family=ZCOOL+KuaiLe&family=Gaegu:wght@300;400;700&display=swap');
 @import "tailwindcss";
 
+/* ============================================================
+   Jeju Travel App — CSS Variables v2.0
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 主色 */
+  --color-primary: #F5727F;
+  --color-lavender: #8D82D3;
+  --color-soft-blue: #BDD8DB;
+  --color-warm-beige: #FCF7EE;
+
+  /* 强调色 */
+  --color-amber: #FFBF00;
+  --color-forest-green: #4CAF50;
+  --color-orange-yellow: #FBA044;
+  --color-rose-pink: #FF6B90;
+  --color-brown: #8B4513;
+
+  /* 背景 */
+  --color-bg-page: #FFF8F0;
+  --color-bg-card: #FFFFFF;
+  --color-bg-map: #F5F0E8;
+  --color-bg-highlight: #F5E6D0;
+  --color-bg-learn-more: #F5F0E8;
+
+  /* 功能色 */
+  --color-breakfast: #F5A623;
+  --color-lunch: #4CAF50;
+  --color-dinner: #E07878;
+  --color-coffee: #8B4513;
+
+  /* 标签色 */
+  --color-tag-dining: #D4537E;
+  --color-tag-coffee: #8B4513;
+  --color-tag-transport: #8D82D3;
+  --color-tag-difficult: #FBA044;
+  --color-tag-completed: #4CAF50;
+
+  /* Checklist 卡片边框色 */
+  --color-card-documents: #F5727F;
+  --color-card-currency: #BDD8DB;
+  --color-card-comms: #8D82D3;
+  --color-card-restaurant: #F5727F;
+  --color-card-transport: #BDD8DB;
+  --color-card-packing: #8D82D3;
+
+  /* 时间轴圆点 */
+  --color-dot-restaurant: #FF6B9D;
+  --color-dot-attraction: #4CAF50;
+  --color-dot-coffee: #8B4513;
+  --color-dot-transport: #8D82D3;
+  --color-dot-hotel: #BDD8DB;
+
+  /* 中性色 */
+  --color-text-primary: #2F2F2F;
+  --color-text-secondary: #757575;
+  --color-text-muted: #E0E0E0;
+  --color-border: #E8D0B0;
+  --color-border-light: #E0E0E0;
+
+  /* 圆角 */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  /* 阴影 */
+  --shadow-level1: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-level2: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-level3: 0 4px 12px rgba(255,191,0,0.3);
+  --shadow-level4: 0 8px 24px rgba(0,0,0,0.2);
+
+  /* 渐变 */
+  --gradient-progress: linear-gradient(to right, #F5A623, #4CAF50);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--color-primary);
+  --color-lavender: var(--color-lavender);
+  --color-soft-blue: var(--color-soft-blue);
+  --color-warm-beige: var(--color-warm-beige);
+  --color-amber: var(--color-amber);
+  --color-forest-green: var(--color-forest-green);
+  --color-bg-page: var(--color-bg-page);
+  --color-bg-card: var(--color-bg-card);
+  --color-bg-map: var(--color-bg-map);
+  --color-bg-highlight: var(--color-bg-highlight);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --font-display: 'ZCOOL KuaiLe', 'Caveat', cursive;
+  --font-hand: 'Caveat', cursive;
+  --font-korean: 'Gaegu', cursive;
+  --font-body: 'Nunito', sans-serif;
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --shadow-level1: var(--shadow-level1);
+  --shadow-level2: var(--shadow-level2);
+  --shadow-level3: var(--shadow-level3);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
