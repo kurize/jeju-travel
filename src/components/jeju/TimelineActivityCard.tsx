@@ -14,6 +14,7 @@ interface TimelineActivityCardProps {
   typeLabel?: string;
   tags?: { type: TagType; label?: string }[];
   learnMoreContent?: string;
+  learnMoreImage?: string;
   accentColor?: string;
   bgTint?: string;
   isCurrent?: boolean;
@@ -28,6 +29,7 @@ export default function TimelineActivityCard({
   typeLabel,
   tags = [],
   learnMoreContent,
+  learnMoreImage,
   bgTint,
   isCurrent = false,
 }: TimelineActivityCardProps) {
@@ -35,7 +37,7 @@ export default function TimelineActivityCard({
     <SketchyBorder
       backgroundColor={bgTint || colors.bgCard}
       borderColor={colors.border}
-      style={{ marginLeft: '8px' }}
+      style={{}}
     >
       {/* 图钉装饰 */}
       <span style={{ position: 'absolute', top: '-8px', right: '16px', fontSize: '16px', zIndex: 3 }}>📌</span>
@@ -73,7 +75,7 @@ export default function TimelineActivityCard({
       {/* 底部操作 */}
       {learnMoreContent && (
         <div style={{ marginTop: '10px' }}>
-          <LearnMoreAccordion>
+          <LearnMoreAccordion image={learnMoreImage}>
             {learnMoreContent}
           </LearnMoreAccordion>
         </div>

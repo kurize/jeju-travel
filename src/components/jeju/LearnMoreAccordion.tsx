@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { colors, radius } from '@/lib/theme';
 
 interface LearnMoreAccordionProps {
   children: React.ReactNode;
   hint?: string;
+  image?: string;
 }
 
-export default function LearnMoreAccordion({ children, hint }: LearnMoreAccordionProps) {
+export default function LearnMoreAccordion({ children, hint, image }: LearnMoreAccordionProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -51,6 +53,15 @@ export default function LearnMoreAccordion({ children, hint }: LearnMoreAccordio
         >
           {/* 回形针装饰 */}
           <span style={{ position: 'absolute', top: '-6px', right: '12px', fontSize: '16px' }}>📎</span>
+          {image && (
+            <div style={{
+              marginBottom: '10px', borderRadius: '8px', overflow: 'hidden',
+              position: 'relative', width: '100%', aspectRatio: '2 / 1',
+              backgroundColor: colors.bgLearnMore,
+            }}>
+              <Image src={image} alt="" fill style={{ objectFit: 'cover' }} sizes="400px" />
+            </div>
+          )}
           {children}
         </div>
       )}

@@ -18,6 +18,7 @@ interface TimelineItem {
   typeLabel?: string;
   tags?: { type: 'default' | 'dining' | 'coffee' | 'completed' | 'hiking' | 'difficult' | 'transport'; label: string }[];
   learnMoreContent?: string;
+  learnMoreImage?: string;
   bgTint?: string;
   isCurrent?: boolean;
   mode?: string;
@@ -64,6 +65,7 @@ const daysData: DayData[] = [
         typeLabel: '早午餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '济州传统蒙国（몸국）是用海藻和猪骨熬制的浓汤，是当地人最爱的早餐。注意：周日休息。',
+        learnMoreImage: '/places/momguk.jpg',
         bgTint: '#FFF5F5',
       },
       { type: 'transport', mode: '步行', duration: '15分钟', destination: '典农路樱花街' },
@@ -74,6 +76,7 @@ const daysData: DayData[] = [
         typeLabel: '景点',
         tags: [{ type: 'default', label: '赏樱' }],
         learnMoreContent: '济州市内最著名的赏樱路，每年3月底至4月初满开。道路两旁种满济州特有的王樱花（왕벚꽃），花瓣比日本樱花更大更饱满。附近新山公园和济州大学樱花路也值得一逛。',
+        learnMoreImage: '/places/cherry-blossom.jpg',
         bgTint: '#FFF0F8',
       },
       { type: 'transport', mode: '出租车', duration: '30分钟', destination: '涯月邑' },
@@ -84,6 +87,7 @@ const daysData: DayData[] = [
         typeLabel: '咖啡',
         tags: [{ type: 'coffee', label: '咖啡' }],
         learnMoreContent: '备选：Haejigae Cafe（涯月北西路52号，海景咖啡），两家风格不同选其一。',
+        learnMoreImage: '/places/coffeenap.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotAttraction, time: '15:30',
@@ -107,6 +111,7 @@ const daysData: DayData[] = [
         typeLabel: '晚餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '济州黑猪肉以肉质鲜嫩多汁著称，是济州岛最具代表性的美食之一。这家店用熟成工艺让肉质更加入味，店员帮烤火候恰到好处。预估费用：60,000-80,000韩元（2人）。',
+        learnMoreImage: '/places/black-pork.jpg',
         bgTint: '#FFF5F5',
       },
     ],
@@ -130,6 +135,7 @@ const daysData: DayData[] = [
         typeLabel: '车览',
         tags: [{ type: 'default', label: '赏樱' }, { type: 'default', label: '油菜花' }],
         learnMoreContent: '连接表善面和南元邑的乡间公路，两侧种满了油菜花和樱花。每年春天金黄与粉白交织的画面成为济州最具代表性的春景。适合车上欣赏，也可以停车拍照。',
+        learnMoreImage: '/places/canola-road.jpg',
         bgTint: '#FFFFF0',
       },
       { type: 'transport', mode: '出租车', duration: '30分钟', destination: 'Cafe Delmoondo' },
@@ -140,6 +146,7 @@ const daysData: DayData[] = [
         typeLabel: '早餐',
         tags: [{ type: 'coffee', label: '咖啡' }, { type: 'dining', label: '用餐' }],
         learnMoreContent: '咸德海水浴场（함덕해수욕장）是济州北部最美海滩之一，浅蓝色清澈海水，白色沙滩。吃完可在海滩散步，远处可望见城山日出峰轮廓。',
+        learnMoreImage: '/places/hamdeok-beach.jpg',
       },
       { type: 'transport', mode: '出租车', duration: '30分钟', destination: '城山日出峰' },
       {
@@ -149,6 +156,7 @@ const daysData: DayData[] = [
         typeLabel: '景点',
         tags: [{ type: 'hiking', label: '徒步' }],
         learnMoreContent: '约10万年前海底火山喷发形成的巨大岩石山，海拔182米，山顶有直径约600米的火山口。名字来源于"看日出最美的山峰"。登顶后360度全景：一侧大海，另一侧牛岛和济州东海岸。',
+        learnMoreImage: '/places/seongsan.jpg',
         bgTint: '#F0FFF0',
       },
       {
@@ -158,6 +166,7 @@ const daysData: DayData[] = [
         typeLabel: '景点',
         tags: [{ type: 'default', label: '海岸' }],
         learnMoreContent: '济州东海岸伸入海中的岬角，由黑色火山岩和翠绿草坪组成，尽头有白色灯塔。天气好时能看到城山日出峰和牛岛的壮丽全景。安藤忠雄设计的"Genius Loci"建筑也在此处。电视剧《All In》取景地。',
+        learnMoreImage: '/places/seopjikoji.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotRestaurant, time: '12:30',
@@ -166,6 +175,7 @@ const daysData: DayData[] = [
         typeLabel: '午餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '济州岛独有的海女（해녀）文化已列入UNESCO非物质文化遗产。海女不使用氧气设备，凭一口气潜入10-20米深海中采集海鲜。现役海女大多60-80岁高龄。现捞的海螺、鲍鱼、海胆直接入厨房。预估费用：50,000-70,000韩元（2人）。',
+        learnMoreImage: '/places/haenyeo.jpg',
         bgTint: '#FFF5F5',
       },
       { type: 'transport', mode: '出租车', duration: '20分钟', destination: '月汀里' },
@@ -176,6 +186,7 @@ const daysData: DayData[] = [
         typeLabel: '咖啡',
         tags: [{ type: 'coffee', label: '咖啡' }],
         learnMoreContent: '备选：伦敦贝果博物馆（특색贝果店）或 카페 모알보알（东部海边咖啡）。',
+        learnMoreImage: '/places/woljeongri.jpg',
       },
       { type: 'transport', mode: '出租车', duration: '40分钟', destination: 'Jeju Madang' },
       {
@@ -185,6 +196,7 @@ const daysData: DayData[] = [
         typeLabel: '晚餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '济州近海盛产银带鱼，是济州最具代表性的海鲜之一。济州带鱼比一般带鱼更肥厚鲜甜。红烧带鱼煮（갈치조림）酱香浓郁，炭火烤带鱼（갈치구이）外焦里嫩。预估费用：50,000-60,000韩元（2人）。',
+        learnMoreImage: '/places/grilled-fish.jpg',
         bgTint: '#FFF5F5',
       },
     ],
@@ -208,6 +220,7 @@ const daysData: DayData[] = [
         typeLabel: '景点',
         tags: [{ type: 'hiking', label: '骑行' }, { type: 'default', label: '海滩' }],
         learnMoreContent: '因形似卧牛而得名。拥有韩国唯一的珊瑚沙海水浴场——"西滨白沙"，海水呈梦幻翡翠色。环岛约17公里，骑自行车最受欢迎。必吃花生冰淇淋（牛岛特产花生制作），还有黑色花生拿铁。',
+        learnMoreImage: '/places/udo-island.jpg',
         bgTint: '#F0FFFF',
       },
       { type: 'transport', mode: '渡轮+出租车', duration: '60分钟', destination: '东门市场' },
@@ -218,6 +231,7 @@ const daysData: DayData[] = [
         typeLabel: '午餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '1945年开业至今的济州最大最古老传统市场。推荐：现烤海鲜（鲍鱼、扇贝）、黑猪肉紫菜卷、济州橘子鲜榨果汁、辣炒年糕、红衣花生。每周五六日晚上还有夜市。预估费用：~30,000韩元（2人）。',
+        learnMoreImage: '/places/dongmun-market.jpg',
         bgTint: '#FFF8F0',
       },
       {
@@ -234,6 +248,7 @@ const daysData: DayData[] = [
         typeLabel: '日落',
         tags: [{ type: 'default', label: '日落' }],
         learnMoreContent: '200万年前火山熔岩从汉拿山流入大海时冷却凝固形成，高约10米，因酷似龙头仰天长啸而得名。传说是一条想飞上天的龙被神仙的箭射中后化为石头。日落时分最佳。',
+        learnMoreImage: '/places/yongduam.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotRestaurant, time: '18:30',
@@ -242,6 +257,7 @@ const daysData: DayData[] = [
         typeLabel: '晚餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '万倍生鱼片中心，近500条评价。推荐：鰤鱼生鱼片+青花鱼+套餐送酱蟹。地址：济州市国基路2街2-9（莲洞）。堂食通常等1小时，可选外带（25-30分钟）。现金支付95折，建议备好现金。',
+        learnMoreImage: '/places/sashimi.jpg',
         bgTint: '#FFF5F5',
       },
     ],
@@ -336,73 +352,98 @@ export default function TimelinePage() {
       {/* 地图 */}
       <DayMapLazy stops={currentDay.mapStops} />
 
-      {/* 时间轴 */}
-      <div style={{ position: 'relative', padding: '0 16px 0 32px' }}>
-        {/* 垂直线 */}
-        <div style={{
-          position: 'absolute', left: '22px', top: 0, bottom: 0, width: '3px',
-          background: 'linear-gradient(to bottom, transparent 0%, #D4B896 5%, #D4B896 95%, transparent 100%)',
-          filter: 'url(#sketchy)',
-        }} />
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {currentDay.items.map((item, index) => {
-            if (item.type === 'transport') {
-              return (
-                <div key={index} style={{ position: 'relative' }}>
-                  <div style={{
-                    position: 'absolute', left: '-18px', top: '50%', transform: 'translateY(-50%)',
-                    width: '8px', height: '8px', borderRadius: '50%', backgroundColor: colors.lavender,
-                  }} />
-                  <TimelineTransportPill mode={item.mode!} duration={item.duration!} destination={item.destination!} />
-                </div>
-              );
-            }
+      {/* 时间轴 — 双列布局：左侧轨道 + 右侧内容 */}
+      <div style={{ padding: '0 16px' }}>
+        {(() => {
+          let step = 0;
+          return currentDay.items.map((item, index) => {
+            const isActivity = item.type !== 'transport';
+            if (isActivity) step++;
+            const currentStep = step;
+            const isFirst = index === 0;
+            const isLast = index === currentDay.items.length - 1;
+            const dotColor = item.dotColor || colors.dotFuture;
 
             return (
-              <div key={index} style={{ position: 'relative' }}>
-                {/* 时间分隔行 — 卡片上方 */}
-                {item.time && (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: '8px',
-                    marginBottom: '6px', marginLeft: '8px',
-                  }}>
-                    <span style={{
-                      fontSize: '15px', fontWeight: 800,
-                      color: item.dotColor || colors.primary,
-                      fontFamily: typography.fontHand,
-                      letterSpacing: '0.5px',
-                      flexShrink: 0,
-                    }}>
-                      {item.time}
-                    </span>
-                    <div style={{
-                      flex: 1, height: '1px',
-                      background: `linear-gradient(to right, ${(item.dotColor || colors.primary)}40, transparent)`,
-                    }} />
-                  </div>
-                )}
-                {/* 圆点 */}
+              <div key={index} style={{ display: 'flex', gap: '0' }}>
+                {/* 左侧轨道 */}
                 <div style={{
-                  position: 'absolute', left: '-20px', top: item.time ? '32px' : '16px',
-                  width: '12px', height: '12px', borderRadius: '50%',
-                  backgroundColor: item.dotColor || colors.dotFuture,
-                  boxShadow: `0 0 0 2px ${(item.dotColor || colors.dotFuture)}33`,
-                }} />
-                <TimelineActivityCard
-                  title={item.title!}
-                  koreanTitle={item.koreanTitle}
-                  description={item.description}
-                  typeLabel={item.typeLabel}
-                  tags={item.tags}
-                  learnMoreContent={item.learnMoreContent}
-                  bgTint={item.bgTint}
-                  isCurrent={item.isCurrent}
-                />
+                  width: '40px', flexShrink: 0,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center',
+                }}>
+                  {/* 上半段线 */}
+                  <div style={{
+                    width: '2px', flex: 1,
+                    backgroundColor: isFirst ? 'transparent' : colors.timelineLine,
+                  }} />
+                  {/* 圆点 */}
+                  {isActivity ? (
+                    <div style={{
+                      width: '26px', height: '26px', borderRadius: '50%',
+                      backgroundColor: dotColor,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                      boxShadow: `0 0 0 3px ${dotColor}25`,
+                    }}>
+                      <span style={{
+                        fontSize: '12px', fontWeight: 800, color: '#FFFFFF',
+                        fontFamily: typography.fontBody,
+                      }}>{currentStep}</span>
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: '10px', height: '10px', borderRadius: '50%',
+                      backgroundColor: colors.lavender,
+                      flexShrink: 0,
+                      boxShadow: `0 0 0 2px ${colors.lavender}25`,
+                    }} />
+                  )}
+                  {/* 下半段线 */}
+                  <div style={{
+                    width: '2px', flex: 1,
+                    backgroundColor: isLast ? 'transparent' : colors.timelineLine,
+                  }} />
+                </div>
+                {/* 右侧内容 */}
+                <div style={{ flex: 1, padding: '8px 0', minWidth: 0 }}>
+                  {isActivity ? (
+                    <>
+                      {item.time && (
+                        <div style={{
+                          display: 'inline-flex', alignItems: 'center',
+                          marginBottom: '6px',
+                          padding: '2px 10px',
+                          borderRadius: '10px',
+                          backgroundColor: `${dotColor}18`,
+                          border: `1.5px solid ${dotColor}40`,
+                        }}>
+                          <span style={{
+                            fontSize: '13px', fontWeight: 800,
+                            color: dotColor,
+                            fontFamily: typography.fontBody,
+                          }}>{item.time}</span>
+                        </div>
+                      )}
+                      <TimelineActivityCard
+                        title={item.title!}
+                        koreanTitle={item.koreanTitle}
+                        description={item.description}
+                        typeLabel={item.typeLabel}
+                        tags={item.tags}
+                        learnMoreContent={item.learnMoreContent}
+                        learnMoreImage={item.learnMoreImage}
+                        bgTint={item.bgTint}
+                        isCurrent={item.isCurrent}
+                      />
+                    </>
+                  ) : (
+                    <TimelineTransportPill mode={item.mode!} duration={item.duration!} destination={item.destination!} />
+                  )}
+                </div>
               </div>
             );
-          })}
-        </div>
+          });
+        })()}
       </div>
     </div>
   );
