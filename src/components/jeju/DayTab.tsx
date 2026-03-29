@@ -28,7 +28,8 @@ export default function DayTab({ day, date, emoji, active = false, onClick }: Da
         cursor: 'pointer',
         fontFamily: typography.fontBody,
         boxShadow: active ? shadows.level3 : 'none',
-        transition: 'all 0.2s',
+        transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: active ? 'scale(1.05)' : 'scale(1)',
         whiteSpace: 'nowrap',
       }}
     >

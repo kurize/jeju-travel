@@ -27,7 +27,11 @@ export default function TimelineTransportPill({ mode, duration, destination }: T
       borderRadius={radius.lg}
       padding="10px 16px"
       boxShadow="none"
-      style={{ marginLeft: '8px' }}
+      style={{
+        marginLeft: '8px',
+        borderLeft: `2.5px dashed ${colors.dotTransport}`,
+        paddingLeft: '12px',
+      }}
     >
       <div style={{
         display: 'flex',

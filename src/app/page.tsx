@@ -13,7 +13,7 @@ export default function Home() {
   const handleTabChange = (tab: TabId) => {
     setActiveTab(tab);
     setFadeKey((k) => k + 1);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

@@ -25,8 +25,8 @@ export default function ChecklistHeader({ completed, total }: ChecklistHeaderPro
       <div style={{ position: 'absolute', top: '12px', left: '20px', fontSize: '18px', opacity: 0.5 }}>⭐</div>
       <div style={{ position: 'absolute', top: '8px', right: '24px', fontSize: '16px', opacity: 0.4 }}>✈️</div>
 
-      <h1 style={{ fontSize: '22px', fontWeight: 900, color: colors.primary, letterSpacing: '2px', margin: 0, fontFamily: typography.fontHand }}>
-        JEJU ISLAND CHECKLIST
+      <h1 style={{ fontSize: '22px', fontWeight: 900, color: colors.primary, letterSpacing: '2px', margin: 0, fontFamily: typography.fontDisplay }}>
+        济州岛出行清单
       </h1>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px' }}>

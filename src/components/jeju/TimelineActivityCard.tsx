@@ -43,15 +43,7 @@ export default function TimelineActivityCard({
       {/* 时间 + 标题区域 */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          {time && (
-            <div style={{
-              fontSize: '12px', fontWeight: 700, color: colors.primary,
-              marginBottom: '2px', fontFamily: typography.fontHand,
-              letterSpacing: '0.5px',
-            }}>
-              {time}
-            </div>
-          )}
+          {/* 时间已移至卡片外部的分隔行显示 */}
           <div style={{ fontSize: '16px', fontWeight: 700, color: colors.textPrimary, lineHeight: 1.3, fontFamily: typography.fontBody }}>{title}</div>
           {koreanTitle && (
             <div style={{ fontSize: '14px', color: colors.amber, marginTop: '1px', fontFamily: typography.fontKorean }}>{koreanTitle}</div>

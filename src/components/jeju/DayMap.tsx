@@ -72,12 +72,25 @@ export default function DayMap({ stops, height = '200px' }: DayMapProps) {
       lineJoin: 'round',
     }).addTo(map);
 
+    // 检测相邻标记是否过于密集，密集区域只显示序号
+    const pixelPositions = stops.map((s) => map.latLngToContainerPoint(s.coord));
+    const crowded = stops.map((_, i) => {
+      for (let j = 0; j < stops.length; j++) {
+        if (i === j) continue;
+        const dx = pixelPositions[i].x - pixelPositions[j].x;
+        const dy = pixelPositions[i].y - pixelPositions[j].y;
+        if (Math.sqrt(dx * dx + dy * dy) < 50) return true;
+      }
+      return false;
+    });
+
     // 添加站点标记
     stops.forEach((stop, i) => {
       const color = dotColor(stop.type);
       const isFirst = i === 0;
       const isLast = i === stops.length - 1;
       const size = (isFirst || isLast) ? 32 : 26;
+      const labelText = crowded[i] ? `${i + 1}` : `${i + 1}. ${stop.name}`;
 
       const icon = L.divIcon({
         className: 'custom-marker',
@@ -101,7 +114,7 @@ export default function DayMap({ stops, height = '200px' }: DayMapProps) {
             font-family: ${typography.fontBody};
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             max-width: 110px; overflow: hidden; text-overflow: ellipsis;
-          ">${i + 1}. ${stop.name}</span>
+          ">${labelText}</span>
         </div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],

@@ -83,6 +83,12 @@ export default function BottomTabBar({ activeTab, onTabChange }: BottomTabBarPro
             >
               {label}
             </span>
+            {isActive && (
+              <div style={{
+                width: '4px', height: '4px', borderRadius: '50%',
+                backgroundColor: colors.primary, marginTop: '2px',
+              }} />
+            )}
           </button>
         );
       })}

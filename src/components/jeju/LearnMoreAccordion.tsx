@@ -29,7 +29,7 @@ export default function LearnMoreAccordion({ children, hint }: LearnMoreAccordio
             padding: 0,
           }}
         >
-          💡 Learn more {open ? '∧' : '∨'}
+          💡 了解更多 {open ? '∧' : '∨'}
         </button>
         {hint && !open && (
           <span style={{ fontSize: '12px', color: colors.textSecondary }}>{hint}</span>

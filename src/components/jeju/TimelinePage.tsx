@@ -337,11 +337,11 @@ export default function TimelinePage() {
       <DayMapLazy stops={currentDay.mapStops} />
 
       {/* 时间轴 */}
-      <div style={{ position: 'relative', padding: '0 16px 0 40px' }}>
-        {/* 垂直线 — 纯图形，可用滤镜 */}
+      <div style={{ position: 'relative', padding: '0 16px 0 32px' }}>
+        {/* 垂直线 */}
         <div style={{
-          position: 'absolute', left: '26px', top: 0, bottom: 0, width: '2px',
-          backgroundColor: colors.timelineLine,
+          position: 'absolute', left: '22px', top: 0, bottom: 0, width: '3px',
+          background: 'linear-gradient(to bottom, transparent 0%, #D4B896 5%, #D4B896 95%, transparent 100%)',
           filter: 'url(#sketchy)',
         }} />
 
@@ -351,7 +351,7 @@ export default function TimelinePage() {
               return (
                 <div key={index} style={{ position: 'relative' }}>
                   <div style={{
-                    position: 'absolute', left: '-22px', top: '50%', transform: 'translateY(-50%)',
+                    position: 'absolute', left: '-18px', top: '50%', transform: 'translateY(-50%)',
                     width: '8px', height: '8px', borderRadius: '50%', backgroundColor: colors.lavender,
                   }} />
                   <TimelineTransportPill mode={item.mode!} duration={item.duration!} destination={item.destination!} />
@@ -361,25 +361,30 @@ export default function TimelinePage() {
 
             return (
               <div key={index} style={{ position: 'relative' }}>
-                {/* 时间标签 — 挂在时间线上 */}
+                {/* 时间分隔行 — 卡片上方 */}
                 {item.time && (
                   <div style={{
-                    position: 'absolute', left: '-40px', top: '4px',
-                    width: '36px', textAlign: 'center',
-                    fontSize: '10px', fontWeight: 800, color: '#FFFFFF',
-                    backgroundColor: item.dotColor || colors.primary,
-                    borderRadius: '6px', padding: '2px 0',
-                    fontFamily: typography.fontHand,
-                    letterSpacing: '0.3px',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
-                    zIndex: 2,
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    marginBottom: '6px', marginLeft: '8px',
                   }}>
-                    {item.time}
+                    <span style={{
+                      fontSize: '15px', fontWeight: 800,
+                      color: item.dotColor || colors.primary,
+                      fontFamily: typography.fontHand,
+                      letterSpacing: '0.5px',
+                      flexShrink: 0,
+                    }}>
+                      {item.time}
+                    </span>
+                    <div style={{
+                      flex: 1, height: '1px',
+                      background: `linear-gradient(to right, ${(item.dotColor || colors.primary)}40, transparent)`,
+                    }} />
                   </div>
                 )}
                 {/* 圆点 */}
                 <div style={{
-                  position: 'absolute', left: '-24px', top: '24px',
+                  position: 'absolute', left: '-20px', top: item.time ? '32px' : '16px',
                   width: '12px', height: '12px', borderRadius: '50%',
                   backgroundColor: item.dotColor || colors.dotFuture,
                   boxShadow: `0 0 0 2px ${(item.dotColor || colors.dotFuture)}33`,
