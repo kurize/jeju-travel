@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { colors } from '@/lib/theme';
 
 interface JejuBannerProps {
@@ -20,14 +21,20 @@ export default function JejuBanner({ image = 'jeju-travelpublicbanner-jeju-03.jp
       <div style={{
         width: '100%',
         height: '140px',
-        backgroundImage: `url(/${image})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
         position: 'relative',
       }}>
+        <Image
+          src={`/${image}`}
+          alt="济州岛横幅"
+          fill
+          sizes="420px"
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center 40%' }}
+        />
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0, height: '50px',
           background: 'linear-gradient(transparent, #FFF8F0)',
+          zIndex: 1,
         }} />
       </div>
     </div>

@@ -12,9 +12,9 @@ interface BottomTabBarProps {
 }
 
 const tabs: { id: TabId; label: string; icon: React.ElementType }[] = [
-  { id: 'itinerary', label: 'Itinerary', icon: CalendarDays },
-  { id: 'checklist', label: 'Checklist', icon: CheckSquare },
-  { id: 'info',      label: 'Info',      icon: Info },
+  { id: 'itinerary', label: '行程', icon: CalendarDays },
+  { id: 'checklist', label: '清单', icon: CheckSquare },
+  { id: 'info',      label: '信息', icon: Info },
 ];
 
 export default function BottomTabBar({ activeTab, onTabChange }: BottomTabBarProps) {

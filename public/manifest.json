@@ -1,0 +1,21 @@
+{
+  "name": "济州岛旅行助手",
+  "short_name": "Jeju Travel",
+  "description": "济州岛4天旅行行程、出行清单、实用信息",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#F5727F",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

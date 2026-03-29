@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { colors } from '@/lib/theme';
 import ChecklistHeader from './ChecklistHeader';
 import ReminderBanner from './ReminderBanner';
@@ -94,16 +94,44 @@ const initialCategories: CategoryData[] = [
   },
 ];
 
+const STORAGE_KEY = 'jeju-checklist-state';
+
+function loadSavedState(): Record<string, boolean> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch { return {}; }
+}
+
+function applyState(categories: CategoryData[], saved: Record<string, boolean>): CategoryData[] {
+  return categories.map((cat) => ({
+    ...cat,
+    items: cat.items.map((item) => ({
+      ...item,
+      checked: saved[item.id] ?? item.checked,
+    })),
+  }));
+}
+
 export default function ChecklistPage() {
   const [categories, setCategories] = useState(initialCategories);
+
+  // 从 localStorage 恢复勾选状态
+  useEffect(() => {
+    const saved = loadSavedState();
+    if (Object.keys(saved).length > 0) {
+      setCategories((prev) => applyState(prev, saved));
+    }
+  }, []);
 
   const allItems = categories.flatMap((c) => c.items);
   const totalItems = allItems.length;
   const completedItems = allItems.filter((i) => i.checked).length;
 
   const handleToggle = (categoryIndex: number, itemId: string) => {
-    setCategories((prev) =>
-      prev.map((cat, idx) => {
+    setCategories((prev) => {
+      const next = prev.map((cat, idx) => {
         if (idx !== categoryIndex) return cat;
         return {
           ...cat,
@@ -111,8 +139,13 @@ export default function ChecklistPage() {
             item.id === itemId ? { ...item, checked: !item.checked } : item
           ),
         };
-      })
-    );
+      });
+      // 保存到 localStorage
+      const state: Record<string, boolean> = {};
+      next.forEach((cat) => cat.items.forEach((item) => { state[item.id] = item.checked; }));
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+      return next;
+    });
   };
 
   const leftCol = [0, 2, 4];

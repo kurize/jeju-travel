@@ -100,8 +100,8 @@ export default function DayMap({ stops, height = '200px' }: DayMapProps) {
             padding: 1px 4px; border-radius: 4px;
             font-family: ${typography.fontBody};
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            max-width: 80px; overflow: hidden; text-overflow: ellipsis;
-          ">${i + 1}. ${stop.name.length > 6 ? stop.name.slice(0, 6) + '…' : stop.name}</span>
+            max-width: 110px; overflow: hidden; text-overflow: ellipsis;
+          ">${i + 1}. ${stop.name}</span>
         </div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],

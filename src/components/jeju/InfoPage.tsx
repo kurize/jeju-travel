@@ -110,13 +110,14 @@ function RestaurantCard({ icon, name, desc, address }: { icon: string; name: str
 // ==================== 酒店信息卡片 ====================
 function HotelCard() {
   const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
     navigator.clipboard?.writeText('제주시 탑동로 5 (Mangrove Jeju City)');
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
   return (
-    <div onClick={handleCopy} style={{ cursor: 'pointer', position: 'relative' }}>
+    <div style={{ position: 'relative' }}>
       <SketchyBorder
         borderColor={colors.softBlue}
         borderRadius={radius.md}
@@ -136,14 +137,16 @@ function HotelCard() {
           <div>👥 2人</div>
         </div>
         <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-          <div style={{ flex: 1, fontSize: '10px', color: colors.primary, fontWeight: 600, textAlign: 'center', padding: '6px 0', backgroundColor: `${colors.primary}10`, borderRadius: radius.sm }}>
+          <button
+            onClick={handleCopy}
+            style={{ flex: 1, fontSize: '10px', color: colors.primary, fontWeight: 600, textAlign: 'center', padding: '6px 0', backgroundColor: `${colors.primary}10`, borderRadius: radius.sm, border: 'none', cursor: 'pointer' }}
+          >
             📋 点击复制韩文地址
-          </div>
+          </button>
           <a
             href="https://maps.google.com/maps?q=33.5168,126.5242&z=16"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
             style={{ flex: 1, fontSize: '10px', color: colors.softBlue, fontWeight: 600, textAlign: 'center', padding: '6px 0', backgroundColor: `${colors.softBlue}15`, borderRadius: radius.sm, textDecoration: 'none' }}
           >
             🗺️ 打开地图导航
