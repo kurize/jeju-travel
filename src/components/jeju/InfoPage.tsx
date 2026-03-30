@@ -138,7 +138,6 @@ function HotelCard() {
           <div>📍 塔洞路5号 (5 Tapdong-ro)</div>
           <div style={{ fontFamily: typography.fontKorean }}>🇰🇷 제주시 탑동로 5</div>
           <div>📅 4/4 入住 → 4/7 退房</div>
-          <div>👥 2人</div>
         </div>
         <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
           <button

@@ -246,7 +246,7 @@ const daysData: DayData[] = [
         typeLabel: '逛街',
         tags: [{ type: 'default', label: '赏樱' }, { type: 'default', label: '购物' }],
         learnMoreContent: '三姓穴是济州岛建岛传说的发源地，三位神人从地底涌出的三个洞穴。4月初樱花盛开时，传统韩屋与粉色樱花交相辉映，非常出片。出来后步行5分钟到宝健路步行街，可以逛化妆品店和特色小店。',
-        learnMoreImage: '/places/cherry-blossom.jpg',
+        learnMoreImage: '/places/samseonghyeol.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotAttraction, time: '17:30',
@@ -284,7 +284,7 @@ const daysData: DayData[] = [
         typeLabel: '早餐',
         tags: [{ type: 'dining', label: '用餐' }],
         learnMoreContent: '银熙家醒酒汤（은희네해장국）是济州排名前列的醒酒汤店。招牌是猪骨醒酒汤，浓郁鲜美，配上泡菜和米饭是完美的早餐。地址靠近济州机场和市区，适合最后一天早起吃完出发。',
-        learnMoreImage: '/places/momguk.jpg',
+        learnMoreImage: '/places/hangover-soup.jpg',
         bgTint: '#FFF5F5',
       },
       {

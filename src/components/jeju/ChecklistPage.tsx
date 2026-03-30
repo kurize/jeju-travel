@@ -258,15 +258,11 @@ export default function ChecklistPage() {
 
       <ChecklistHeader completed={completedItems} total={totalItems} />
 
-      {/* 当前用户标识 */}
+      {/* 切换用户（小字） */}
       <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        gap: '8px', margin: '4px 0 8px',
+        display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+        gap: '6px', margin: '0 16px 8px',
       }}>
-        <span style={{
-          fontSize: '14px', fontWeight: 700, color: colors.amber,
-          fontFamily: typography.fontBody,
-        }}>🧑 {myName} 的清单</span>
         <button
           onClick={handleChangeName}
           style={{
@@ -275,7 +271,7 @@ export default function ChecklistPage() {
             borderRadius: '8px', padding: '2px 8px', cursor: 'pointer',
             fontFamily: typography.fontBody,
           }}
-        >切换</button>
+        >切换身份</button>
       </div>
 
       <div style={{ marginBottom: '16px' }}>
