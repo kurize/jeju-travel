@@ -55,6 +55,7 @@ const daysData: DayData[] = [
         description: '过关+取行李约30分钟，打车到酒店约10分钟（~4000韩元）',
         typeLabel: '到达',
         tags: [{ type: 'transport', label: '交通' }],
+        learnMoreContent: '济州机场是韩国第二繁忙的机场。入境流程简单，凭护照和K-ETA即可快速通关。出机场后左转即可搭乘出租车，到市区酒店约10分钟。',
         bgTint: '#F0F8FF',
       },
       { type: 'transport', mode: '出租车', duration: '10分钟', destination: '济州红树林酒店' },
@@ -95,6 +96,8 @@ const daysData: DayData[] = [
         description: '涯月海边悬崖观景台，拍照绝佳',
         typeLabel: '打卡',
         tags: [{ type: 'default', label: '拍照' }],
+        learnMoreContent: '涯月邑的悬崖观景台，面朝大海视野开阔，日落时分光线打在玄武岩上非常壮观。适合拍剪影照，建议日落前1小时到达占位。',
+        learnMoreImage: '/places/sunset-cliff.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotAttraction, time: '17:30',
@@ -102,6 +105,8 @@ const daysData: DayData[] = [
         description: '沿海岸线散步，海水如果冻般通透。日落约18:40',
         typeLabel: '日落',
         tags: [{ type: 'default', label: '日落' }],
+        learnMoreContent: '涯月海岸线的海水清澈见底，因阳光折射呈现果冻般的翡翠色而得名"果冻海"。日落时海面被染成金色，是济州西海岸最浪漫的时刻。沿海岸步道散步约30分钟。',
+        learnMoreImage: '/places/ocean-sunset.jpg',
       },
       { type: 'transport', mode: '出租车', duration: '10分钟', destination: 'Doldam Black Pork' },
       {
@@ -240,6 +245,8 @@ const daysData: DayData[] = [
         description: '樱花搭配韩屋 | 宝健路步行街购物 | 七星路商业街',
         typeLabel: '逛街',
         tags: [{ type: 'default', label: '赏樱' }, { type: 'default', label: '购物' }],
+        learnMoreContent: '三姓穴是济州岛建岛传说的发源地，三位神人从地底涌出的三个洞穴。4月初樱花盛开时，传统韩屋与粉色樱花交相辉映，非常出片。出来后步行5分钟到宝健路步行街，可以逛化妆品店和特色小店。',
+        learnMoreImage: '/places/cherry-blossom.jpg',
       },
       {
         type: 'activity', dotColor: colors.dotAttraction, time: '17:30',
@@ -276,6 +283,9 @@ const daysData: DayData[] = [
         description: '醒酒汤名店 | 备选：酒店附近便利店/咖啡厅',
         typeLabel: '早餐',
         tags: [{ type: 'dining', label: '用餐' }],
+        learnMoreContent: '银熙家醒酒汤（은희네해장국）是济州排名前列的醒酒汤店。招牌是猪骨醒酒汤，浓郁鲜美，配上泡菜和米饭是完美的早餐。地址靠近济州机场和市区，适合最后一天早起吃完出发。',
+        learnMoreImage: '/places/momguk.jpg',
+        bgTint: '#FFF5F5',
       },
       {
         type: 'activity', dotColor: colors.dotAttraction, time: '08:30',
@@ -283,6 +293,7 @@ const daysData: DayData[] = [
         description: '69 Noyeon-ro | 济州免税店人少，比首尔好逛',
         typeLabel: '购物',
         tags: [{ type: 'default', label: '购物' }],
+        learnMoreContent: '济州新罗免税店位于莲洞，比首尔明洞店人少很多。品牌齐全，购物环境舒适。建议提前在网上下单到店取货更快。营业时间9:00-20:00。',
       },
       { type: 'transport', mode: '出租车', duration: '10分钟', destination: '济州机场' },
       {
@@ -341,10 +352,13 @@ export default function TimelinePage() {
       <div style={{
         margin: '0 16px 16px', padding: '10px 14px',
         backgroundColor: `${colors.amber}15`, borderRadius: '12px',
-        border: `1px dashed ${colors.amber}60`,
-        fontFamily: typography.fontBody,
+        border: `2px dashed ${colors.amber}50`,
+        fontFamily: typography.fontDisplay,
+        position: 'relative',
+        filter: 'url(#sketchy)',
       }}>
-        <span style={{ fontSize: '13px', fontWeight: 700, color: colors.amber }}>
+        <span style={{ position: 'absolute', top: '-8px', right: '14px', fontSize: '14px' }}>✨</span>
+        <span style={{ fontSize: '14px', fontWeight: 700, color: colors.amber }}>
           {currentDay.emoji} 今日主题：{currentDay.theme}
         </span>
       </div>
@@ -444,6 +458,15 @@ export default function TimelinePage() {
             );
           });
         })()}
+      </div>
+
+      {/* 底部装饰 */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '24px', opacity: 0.4, fontSize: '20px' }}>
+        <span>🤿</span><span style={{ transform: 'rotate(-5deg)' }}>🌴</span>
+        <span>🧳</span><span style={{ transform: 'rotate(10deg)' }}>🌺</span>
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '13px', color: colors.textSecondary, fontFamily: typography.fontHand, opacity: 0.5 }}>
+        ~ have a wonderful trip ~
       </div>
     </div>
   );

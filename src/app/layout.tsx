@@ -1,7 +1,44 @@
-'use client';
-
+import type { Metadata } from "next";
 import "./globals.css";
 import HandDrawnFilters from "@/components/jeju/HandDrawnFilters";
+
+export const metadata: Metadata = {
+  title: "济州岛旅行助手",
+  description: "济州岛4天旅行行程、出行清单、实用信息",
+  openGraph: {
+    title: "济州岛旅行助手 🌸",
+    description: "4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选",
+    url: "https://jeju.kurize.com",
+    siteName: "Jeju Travel",
+    images: [
+      {
+        url: "https://jeju.kurize.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "济州岛旅行助手 🌸",
+    description: "4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选",
+    images: ["https://jeju.kurize.com/og-image.jpg"],
+  },
+  other: {
+    "theme-color": "#F5727F",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "济州岛旅行助手",
+  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export default function RootLayout({
   children,
@@ -11,25 +48,6 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>济州岛旅行助手</title>
-        <meta name="description" content="济州岛4天旅行行程、出行清单、实用信息" />
-        {/* 微信/社交分享卡片 */}
-        <meta property="og:title" content="济州岛旅行助手 🌸" />
-        <meta property="og:description" content="4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选" />
-        <meta property="og:image" content="https://jeju.kurize.com/jeju-travelpublicbanner-jeju-01.jpg" />
-        <meta property="og:url" content="https://jeju.kurize.com" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Jeju Travel" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="济州岛旅行助手 🌸" />
-        <meta name="twitter:description" content="4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选" />
-        <meta name="twitter:image" content="https://jeju.kurize.com/jeju-travelpublicbanner-jeju-01.jpg" />
-        {/* PWA */}
-        <meta name="theme-color" content="#F5727F" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="济州岛旅行助手" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>

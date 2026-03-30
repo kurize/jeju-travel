@@ -36,6 +36,27 @@ export default function JejuBanner({ image = 'jeju-travelpublicbanner-jeju-03.jp
           background: 'linear-gradient(transparent, #FFF8F0)',
           zIndex: 1,
         }} />
+        {/* 手绘风装饰 — 和纸胶带效果 */}
+        <div style={{
+          position: 'absolute', top: '8px', left: '12px',
+          transform: 'rotate(-3deg)',
+          backgroundColor: `${colors.primary}30`,
+          padding: '2px 12px',
+          borderRadius: '2px',
+          fontSize: '11px',
+          fontWeight: 700,
+          color: colors.primary,
+          fontFamily: "'ZCOOL KuaiLe', cursive",
+          zIndex: 2,
+          backdropFilter: 'blur(2px)',
+        }}>
+          🌊 济州岛
+        </div>
+        <div style={{
+          position: 'absolute', top: '8px', right: '12px',
+          fontSize: '16px', zIndex: 2,
+          transform: 'rotate(5deg)',
+        }}>🌸</div>
       </div>
     </div>
   );

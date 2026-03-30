@@ -35,13 +35,14 @@ function TipCard({ icon, title, subtitle }: { icon: string; title: string; subti
   return (
     <div
       style={{
-        padding: '14px 12px', backgroundColor: colors.bgHighlight,
+        padding: '14px 12px', backgroundColor: '#FFF9E6',
         borderRadius: radius.md, textAlign: 'center', fontFamily: typography.fontBody,
-        boxShadow: shadows.level1,
+        border: `1.5px dashed ${colors.border}`,
+        filter: 'url(#sketchy)',
       }}
     >
       <div style={{ fontSize: '24px', marginBottom: '4px' }}>{icon}</div>
-      <div style={{ fontSize: '16px', fontWeight: 900, color: colors.textPrimary, lineHeight: 1.2 }}>{title}</div>
+      <div style={{ fontSize: '16px', fontWeight: 900, color: colors.textPrimary, lineHeight: 1.2, fontFamily: typography.fontDisplay }}>{title}</div>
       <div style={{ fontSize: '11px', color: colors.textSecondary, marginTop: '2px' }}>{subtitle}</div>
     </div>
   );
@@ -64,8 +65,9 @@ function PhraseRow({ korean, english, chinese, pronunciation }: { korean: string
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '10px 14px', backgroundColor: colors.bgCard,
         borderRadius: radius.md, fontFamily: typography.fontBody,
-        cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-        position: 'relative', border: `1px solid ${colors.borderLight}`,
+        cursor: 'pointer',
+        position: 'relative', border: `1.5px dashed ${colors.borderLight}`,
+        filter: 'url(#sketchy)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: 0 }}>
@@ -96,11 +98,13 @@ function RestaurantCard({ icon, name, desc, address }: { icon: string; name: str
     <div
       style={{
         padding: '10px', backgroundColor: colors.warmBeige, borderRadius: radius.sm,
-        fontFamily: typography.fontBody, border: `1px solid ${colors.border}`,
+        fontFamily: typography.fontBody, border: `1.5px dashed ${colors.border}`,
+        filter: 'url(#sketchy)',
+        position: 'relative',
       }}
     >
       <div style={{ fontSize: '20px', marginBottom: '4px' }}>{icon}</div>
-      <div style={{ fontSize: '12px', fontWeight: 800, color: colors.textPrimary }}>{name}</div>
+      <div style={{ fontSize: '12px', fontWeight: 800, color: colors.textPrimary, fontFamily: typography.fontDisplay }}>{name}</div>
       <div style={{ fontSize: '10px', color: colors.textSecondary, marginTop: '2px' }}>{desc}</div>
       {address && <div style={{ fontSize: '9px', color: colors.textSecondary, marginTop: '2px', opacity: 0.7 }}>📍 {address}</div>}
     </div>

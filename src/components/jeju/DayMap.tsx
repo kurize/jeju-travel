@@ -51,11 +51,17 @@ export default function DayMap({ stops, height = '200px' }: DayMapProps) {
 
     mapInstance.current = map;
 
-    // 使用 OSM 瓦片，CSS 滤镜实现手绘风
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // 使用多源瓦片，主源OSM + 备用源，确保中国区可用
+    const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 16,
       className: 'sketchy-tiles',
+      subdomains: 'abc',
     }).addTo(map);
+
+    // 如果主源加载失败，切换到备用源
+    tileLayer.on('tileerror', () => {
+      tileLayer.setUrl('https://tile.openstreetmap.de/{z}/{x}/{y}.png');
+    });
 
     // 设置视野
     const bounds = L.latLngBounds(stops.map((s) => s.coord));
@@ -186,6 +192,7 @@ export default function DayMap({ stops, height = '200px' }: DayMapProps) {
           borderRadius: radius.lg,
           position: 'relative',
           zIndex: 0,
+          backgroundColor: colors.bgMap,
         }}
       />
       {/* CSS 滤镜样式 */}

@@ -35,6 +35,8 @@ export default function ProgressBar({ percent, height, showLabel = false }: Prog
           borderRadius: comp.ProgressBar.radius,
           backgroundColor: comp.ProgressBar.bg,
           overflow: 'hidden',
+          filter: 'url(#sketchy)',
+          border: `1px solid ${colors.borderLight}`,
         }}
       >
         <div

@@ -22,10 +22,12 @@ export default function ChecklistHeader({ completed, total }: ChecklistHeaderPro
         position: 'relative',
       }}
     >
-      <div style={{ position: 'absolute', top: '12px', left: '20px', fontSize: '18px', opacity: 0.5 }}>⭐</div>
-      <div style={{ position: 'absolute', top: '8px', right: '24px', fontSize: '16px', opacity: 0.4 }}>✈️</div>
+      <div style={{ position: 'absolute', top: '12px', left: '16px', fontSize: '16px', opacity: 0.5, transform: 'rotate(-10deg)' }}>⭐</div>
+      <div style={{ position: 'absolute', top: '10px', left: '48px', fontSize: '12px', opacity: 0.3 }}>🌼</div>
+      <div style={{ position: 'absolute', top: '8px', right: '20px', fontSize: '16px', opacity: 0.4, transform: 'rotate(8deg)' }}>✈️</div>
+      <div style={{ position: 'absolute', top: '14px', right: '52px', fontSize: '12px', opacity: 0.3 }}>✨</div>
 
-      <h1 style={{ fontSize: '22px', fontWeight: 900, color: colors.primary, letterSpacing: '2px', margin: 0, fontFamily: typography.fontDisplay }}>
+      <h1 style={{ fontSize: '24px', fontWeight: 900, color: colors.primary, letterSpacing: '2px', margin: 0, fontFamily: typography.fontDisplay }}>
         济州岛出行清单
       </h1>
 

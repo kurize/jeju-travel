@@ -33,13 +33,13 @@ export default function StatusTag({ type, label }: StatusTagProps) {
           gap: '4px',
           backgroundColor: 'transparent',
           color: colors.textSecondary,
-          border: `1.5px solid ${colors.borderLight}`,
+          border: `1.5px dashed ${colors.borderLight}`,
           borderRadius: radius.lg,
-          padding: components.Tag.padding,
-          fontSize: components.Tag.fontSize,
-          fontWeight: components.Tag.fontWeight,
+          padding: '6px 12px',
+          fontSize: '12px',
+          fontWeight: 700,
           fontFamily: "'Nunito', sans-serif",
-          height: components.Tag.height,
+          height: '28px',
           lineHeight: 1,
           whiteSpace: 'nowrap',
           boxSizing: 'border-box',
@@ -59,17 +59,17 @@ export default function StatusTag({ type, label }: StatusTagProps) {
         backgroundColor: config.bg,
         color: '#FFFFFF',
         borderRadius: radius.lg,
-        padding: components.Tag.padding,
-        fontSize: components.Tag.fontSize,
-        fontWeight: components.Tag.fontWeight,
+        padding: '6px 12px',
+        fontSize: '12px',
+        fontWeight: 700,
         fontFamily: "'Nunito', sans-serif",
-        height: components.Tag.height,
+        height: '28px',
         lineHeight: 1,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
       }}
     >
-      {config.icon && <span style={{ fontSize: '12px' }}>{config.icon}</span>}
+      {config.icon && <span style={{ fontSize: '11px' }}>{config.icon}</span>}
       {label || config.defaultLabel}
     </span>
   );

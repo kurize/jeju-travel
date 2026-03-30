@@ -21,28 +21,28 @@ function getModeIcon(mode: string) {
 export default function TimelineTransportPill({ mode, duration, destination }: TimelineTransportPillProps) {
   return (
     <SketchyBorder
-      backgroundColor="#F0EDE8"
-      borderColor="transparent"
-      borderWidth={0}
+      backgroundColor="#F5F0E8"
+      borderColor={colors.border}
+      borderWidth={1}
       borderRadius={radius.lg}
-      padding="10px 16px"
+      padding="8px 14px"
       boxShadow="none"
       style={{}}
     >
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
+        gap: '6px',
         fontFamily: typography.fontBody,
-        fontSize: '13px',
+        fontSize: '12px',
         color: colors.textSecondary,
       }}>
         <span>{getModeIcon(mode)}</span>
-        <span>{mode}</span>
-        <span>→</span>
-        <span style={{ fontWeight: 700 }}>{duration}</span>
-        <span>→</span>
-        <span style={{ fontSize: '12px' }}>{destination}</span>
+        <span style={{ fontFamily: typography.fontDisplay }}>{mode}</span>
+        <span style={{ color: colors.amber }}>···</span>
+        <span style={{ fontWeight: 700, color: colors.amber }}>{duration}</span>
+        <span style={{ color: colors.amber }}>···</span>
+        <span style={{ fontSize: '11px' }}>{destination}</span>
       </div>
     </SketchyBorder>
   );

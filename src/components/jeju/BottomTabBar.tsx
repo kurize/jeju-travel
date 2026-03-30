@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { colors } from '@/lib/theme';
+import { colors, typography } from '@/lib/theme';
 import { CalendarDays, CheckSquare, Info } from 'lucide-react';
 
 export type TabId = 'itinerary' | 'checklist' | 'info';
@@ -30,13 +30,14 @@ export default function BottomTabBar({ activeTab, onTabChange }: BottomTabBarPro
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
-        height: '64px',
+        height: '72px',
         backgroundColor: '#FFFFFF',
-        borderTop: `1.5px solid ${colors.borderLight}`,
-        borderRadius: '20px 20px 0 0',
-        fontFamily: "'Nunito', sans-serif",
+        borderTop: `2px solid ${colors.border}`,
+        borderRadius: '24px 24px 0 0',
+        fontFamily: typography.fontBody,
         zIndex: 100,
-        boxShadow: '0 -2px 8px rgba(0,0,0,0.05)',
+        boxShadow: '0 -4px 16px rgba(0,0,0,0.08)',
+        filter: 'url(#sketchy)',
       }}
     >
       {tabs.map(({ id, label, icon: Icon }) => {
@@ -53,15 +54,17 @@ export default function BottomTabBar({ activeTab, onTabChange }: BottomTabBarPro
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              padding: '8px 20px',
+              padding: '8px 24px',
+              transition: 'transform 0.2s',
+              transform: isActive ? 'scale(1.1)' : 'scale(1)',
             }}
           >
             <div
               style={{
-                width: '40px',
-                height: '32px',
-                borderRadius: '12px',
-                backgroundColor: isActive ? `${colors.primary}18` : 'transparent',
+                width: '44px',
+                height: '34px',
+                borderRadius: '14px',
+                backgroundColor: isActive ? `${colors.primary}20` : 'transparent',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -69,24 +72,25 @@ export default function BottomTabBar({ activeTab, onTabChange }: BottomTabBarPro
               }}
             >
               <Icon
-                size={22}
+                size={24}
                 color={isActive ? colors.primary : colors.textSecondary}
                 strokeWidth={isActive ? 2.5 : 1.8}
               />
             </div>
             <span
               style={{
-                fontSize: '11px',
-                fontWeight: isActive ? 700 : 500,
+                fontSize: '12px',
+                fontWeight: isActive ? 800 : 500,
                 color: isActive ? colors.primary : colors.textSecondary,
+                fontFamily: typography.fontDisplay,
               }}
             >
               {label}
             </span>
             {isActive && (
               <div style={{
-                width: '4px', height: '4px', borderRadius: '50%',
-                backgroundColor: colors.primary, marginTop: '2px',
+                width: '5px', height: '5px', borderRadius: '50%',
+                backgroundColor: colors.primary, marginTop: '1px',
               }} />
             )}
           </button>
