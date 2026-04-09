@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { colors, typography, radius, shadows } from '@/lib/theme';
-import { getTrips, createTrip } from '@/lib/trips';
+import { getTrips, createTrip, deleteTrip } from '@/lib/trips';
 import type { Trip } from '@/lib/types';
 import TripCard from './TripCard';
 import CreateTripModal from './CreateTripModal';
@@ -28,6 +28,14 @@ export default function TripListPage() {
       setShowCreate(false);
       router.push(`/trips/${trip.id}`);
     }
+  };
+
+  const handleDelete = async (e: React.MouseEvent, tripId: string, isTemplate: boolean) => {
+    e.stopPropagation();
+    if (isTemplate) return;
+    if (!confirm('确定要删除这个旅行吗？所有行程数据将被清除。')) return;
+    setTrips((prev) => prev.filter((t) => t.id !== tripId));
+    await deleteTrip(tripId);
   };
 
   return (
@@ -75,6 +83,7 @@ export default function TripListPage() {
                 key={trip.id}
                 trip={trip}
                 onClick={() => router.push(`/trips/${trip.id}`)}
+                onDelete={trip.is_template ? undefined : (e) => handleDelete(e, trip.id, trip.is_template)}
               />
             ))}
           </div>

@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { colors, typography, radius, shadows } from '@/lib/theme';
+import { Trash2 } from 'lucide-react';
 import type { Trip } from '@/lib/types';
 
 interface TripCardProps {
   trip: Trip;
   onClick: () => void;
+  onDelete?: (e: React.MouseEvent) => void;
 }
 
-export default function TripCard({ trip, onClick }: TripCardProps) {
+export default function TripCard({ trip, onClick, onDelete }: TripCardProps) {
   // 格式化日期
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return '';
@@ -73,7 +75,19 @@ export default function TripCard({ trip, onClick }: TripCardProps) {
             </div>
           )}
         </div>
-        <span style={{ fontSize: '16px', color: colors.textMuted }}>→</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '16px', color: colors.textMuted }}>→</span>
+          {onDelete && (
+            <button
+              onClick={onDelete}
+              style={{
+                width: '24px', height: '24px', borderRadius: '50%',
+                backgroundColor: `${colors.emergencyRed}10`, border: 'none',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            ><Trash2 size={12} color={colors.emergencyRed} /></button>
+          )}
+        </div>
       </div>
 
       {trip.description && (
