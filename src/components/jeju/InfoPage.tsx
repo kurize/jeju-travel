@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { colors, radius, shadows, typography } from '@/lib/theme';
+import React, { useState, useEffect } from 'react';
+import { colors, radius, typography } from '@/lib/theme';
 import SketchyBorder from './SketchyBorder';
 import JejuBanner from './JejuBanner';
+import { getTripInfo } from '@/lib/trips';
+import type { TripInfoRecord } from '@/lib/types';
 
 // ==================== 紧急联系卡片 ====================
 function EmergencyCard({ number, title, subtitle, icon }: { number: string; title: string; subtitle: string; icon: string }) {
@@ -30,7 +32,7 @@ function EmergencyCard({ number, title, subtitle, icon }: { number: string; titl
   );
 }
 
-// ==================== 实用信息卡片（轻量，不用滤镜） ====================
+// ==================== 实用信息卡片 ====================
 function TipCard({ icon, title, subtitle }: { icon: string; title: string; subtitle: string }) {
   return (
     <div
@@ -48,7 +50,7 @@ function TipCard({ icon, title, subtitle }: { icon: string; title: string; subti
   );
 }
 
-// ==================== 韩语短语行（纯文本，不用滤镜） ====================
+// ==================== 韩语短语行 ====================
 function PhraseRow({ korean, english, chinese, pronunciation }: { korean: string; english: string; chinese: string; pronunciation?: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -92,7 +94,7 @@ function PhraseRow({ korean, english, chinese, pronunciation }: { korean: string
   );
 }
 
-// ==================== 备选餐厅卡片（轻量，不用滤镜） ====================
+// ==================== 备选餐厅卡片 ====================
 function RestaurantCard({ icon, name, desc, address }: { icon: string; name: string; desc: string; address?: string }) {
   return (
     <div
@@ -112,11 +114,11 @@ function RestaurantCard({ icon, name, desc, address }: { icon: string; name: str
 }
 
 // ==================== 酒店信息卡片 ====================
-function HotelCard() {
+function HotelCard({ hotel }: { hotel: Record<string, string> }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigator.clipboard?.writeText('제주시 탑동로 5 (Mangrove Jeju City)');
+    navigator.clipboard?.writeText(hotel.korean_address || '');
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
@@ -130,14 +132,14 @@ function HotelCard() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
           <span style={{ fontSize: '24px' }}>🏨</span>
           <div>
-            <div style={{ fontSize: '16px', fontWeight: 800, color: colors.textPrimary, fontFamily: typography.fontBody }}>济州红树林酒店</div>
-            <div style={{ fontSize: '13px', color: colors.amber, fontFamily: typography.fontKorean }}>Mangrove Jeju City</div>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: colors.textPrimary, fontFamily: typography.fontBody }}>{hotel.name}</div>
+            <div style={{ fontSize: '13px', color: colors.amber, fontFamily: typography.fontKorean }}>{hotel.korean_name}</div>
           </div>
         </div>
         <div style={{ fontSize: '13px', color: colors.textSecondary, lineHeight: 1.6, fontFamily: typography.fontBody }}>
-          <div>📍 塔洞路5号 (5 Tapdong-ro)</div>
-          <div style={{ fontFamily: typography.fontKorean }}>🇰🇷 제주시 탑동로 5</div>
-          <div>📅 4/4 入住 → 4/7 退房</div>
+          <div>📍 {hotel.address}</div>
+          <div style={{ fontFamily: typography.fontKorean }}>🇰🇷 {hotel.korean_address}</div>
+          <div>📅 {hotel.check_in} 入住 → {hotel.check_out} 退房</div>
         </div>
         <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
           <button
@@ -146,14 +148,16 @@ function HotelCard() {
           >
             📋 点击复制韩文地址
           </button>
-          <a
-            href="https://maps.google.com/maps?q=33.5168,126.5242&z=16"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ flex: 1, fontSize: '10px', color: colors.softBlue, fontWeight: 600, textAlign: 'center', padding: '6px 0', backgroundColor: `${colors.softBlue}15`, borderRadius: radius.sm, textDecoration: 'none' }}
-          >
-            🗺️ 打开地图导航
-          </a>
+          {hotel.map_url && (
+            <a
+              href={hotel.map_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ flex: 1, fontSize: '10px', color: colors.softBlue, fontWeight: 600, textAlign: 'center', padding: '6px 0', backgroundColor: `${colors.softBlue}15`, borderRadius: radius.sm, textDecoration: 'none' }}
+            >
+              🗺️ 打开地图导航
+            </a>
+          )}
         </div>
         {copied && (
           <span style={{
@@ -170,7 +174,46 @@ function HotelCard() {
 }
 
 // ==================== Info 页面主体 ====================
-export default function InfoPage() {
+interface InfoPageProps {
+  tripId: string;
+}
+
+export default function InfoPage({ tripId }: InfoPageProps) {
+  const [infoSections, setInfoSections] = useState<TripInfoRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getTripInfo(tripId).then((data) => {
+      setInfoSections(data);
+      setLoading(false);
+    });
+  }, [tripId]);
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFF8F0' }}>
+        <div style={{ textAlign: 'center', fontFamily: typography.fontBody }}>
+          <div style={{ fontSize: '32px', marginBottom: '8px' }}>📝</div>
+          <div style={{ fontSize: '14px', color: colors.textSecondary }}>加载信息中...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // 按 section 查找数据
+  const getSection = (section: string) => infoSections.find((s) => s.section === section);
+  const hotelInfo = getSection('hotel');
+  const emergencyInfo = getSection('emergency');
+  const tipsInfo = getSection('tips');
+  const phrasesInfo = getSection('phrases');
+  const restaurantsInfo = getSection('restaurants');
+
+  const hotel = hotelInfo?.data as Record<string, string> | undefined;
+  const emergencyContacts = (emergencyInfo?.data as { contacts?: { number: string; title: string; subtitle: string; icon: string }[] })?.contacts || [];
+  const tips = (tipsInfo?.data as { tips?: { icon: string; title: string; subtitle: string }[] })?.tips || [];
+  const phrases = (phrasesInfo?.data as { phrases?: { korean: string; pronunciation?: string; english: string; chinese: string }[] })?.phrases || [];
+  const restaurants = (restaurantsInfo?.data as { restaurants?: { icon: string; name: string; desc: string; address?: string }[] })?.restaurants || [];
+
   return (
     <div
       style={{
@@ -187,70 +230,76 @@ export default function InfoPage() {
 
       <div style={{ padding: '16px' }}>
         {/* 酒店信息 */}
-        <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
-          🏨 住宿信息
-        </h3>
-        <div style={{ marginBottom: '20px' }}>
-          <HotelCard />
-        </div>
+        {hotel && (
+          <>
+            <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
+              🏨 住宿信息
+            </h3>
+            <div style={{ marginBottom: '20px' }}>
+              <HotelCard hotel={hotel} />
+            </div>
+          </>
+        )}
 
         {/* 紧急联系 */}
-        <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
-          🚨 紧急联系
-        </h3>
-        <div style={{ fontSize: '11px', color: colors.textSecondary, marginBottom: '8px' }}>→ 点击拨打</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '20px' }}>
-          <EmergencyCard number="112" title="报警" subtitle="Police" icon="🚨" />
-          <EmergencyCard number="119" title="急救/消防" subtitle="Medical / Fire" icon="❤️‍🩹" />
-          <EmergencyCard number="1330" title="旅游咨询" subtitle="支持中文" icon="🚌" />
-          <EmergencyCard number="+82-64-738-8880" title="中国领事馆" subtitle="驻济州总领事馆" icon="🏛️" />
-        </div>
+        {emergencyContacts.length > 0 && (
+          <>
+            <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
+              🚨 紧急联系
+            </h3>
+            <div style={{ fontSize: '11px', color: colors.textSecondary, marginBottom: '8px' }}>→ 点击拨打</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '20px' }}>
+              {emergencyContacts.map((c, i) => (
+                <EmergencyCard key={i} number={c.number} title={c.title} subtitle={c.subtitle} icon={c.icon} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* 实用信息 */}
-        <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
-          📝 实用信息
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '20px' }}>
-          <TipCard icon="🕐" title="快1小时" subtitle="韩国 UTC+9" />
-          <TipCard icon="🔌" title="德标圆孔" subtitle="220V 双圆孔插头" />
-          <TipCard icon="🌡️" title="10-17°C" subtitle="4月初·薄外套+长裤" />
-          <TipCard icon="💰" title="现金重要" subtitle="东门市场/小店需现金" />
-        </div>
+        {tips.length > 0 && (
+          <>
+            <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
+              📝 实用信息
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '20px' }}>
+              {tips.map((tip, i) => (
+                <TipCard key={i} icon={tip.icon} title={tip.title} subtitle={tip.subtitle} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* 常用韩语 */}
-        <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
-          🇰🇷 常用韩语
-        </h3>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', fontSize: '10px', color: colors.textSecondary, marginBottom: '8px' }}>
-          <span>📋</span> 点击复制韩文
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-          <PhraseRow korean="안녕하세요" pronunciation="an-nyeong-ha-se-yo" english="Hello" chinese="你好" />
-          <PhraseRow korean="감사합니다" pronunciation="kam-sa-ham-ni-da" english="Thank You" chinese="谢谢" />
-          <PhraseRow korean="얼마예요?" pronunciation="eol-ma-ye-yo" english="How Much?" chinese="多少钱?" />
-          <PhraseRow korean="맛있어요" pronunciation="ma-si-sseo-yo" english="Delicious" chinese="好吃" />
-          <PhraseRow korean="이거 주세요" pronunciation="i-geo ju-se-yo" english="This One Please" chinese="请给我这个" />
-          <PhraseRow korean="계산이요" pronunciation="gye-sa-ni-yo" english="Check Please" chinese="结账" />
-          <PhraseRow korean="안 맵게 해주세요" pronunciation="an maep-ge hae-ju-se-yo" english="Not Spicy Please" chinese="不要辣" />
-          <PhraseRow korean="화장실 어디예요?" pronunciation="hwa-jang-sil eo-di-ye-yo" english="Where is Restroom?" chinese="洗手间在哪?" />
-          <PhraseRow korean="택시 불러주세요" pronunciation="taek-si bul-leo-ju-se-yo" english="Call a Taxi Please" chinese="请叫出租车" />
-          <PhraseRow korean="여기로 가주세요" pronunciation="yeo-gi-ro ga-ju-se-yo" english="Please Go Here" chinese="请去这里" />
-        </div>
+        {phrases.length > 0 && (
+          <>
+            <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
+              🇰🇷 常用韩语
+            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', fontSize: '10px', color: colors.textSecondary, marginBottom: '8px' }}>
+              <span>📋</span> 点击复制韩文
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+              {phrases.map((p, i) => (
+                <PhraseRow key={i} korean={p.korean} pronunciation={p.pronunciation} english={p.english} chinese={p.chinese} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* 备选餐厅 */}
-        <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
-          🍽️ 备选方案
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-          <RestaurantCard icon="🍗" name="BHC 炸鸡" desc="韩式炸鸡，宵夜首选" address="Sammu-ro 27" />
-          <RestaurantCard icon="🍖" name="바로족발보쌈" desc="猪蹄包肉，替换晚餐" address="진군1길 25" />
-          <RestaurantCard icon="🍜" name="老奶奶炸酱面" desc="中餐，D4早餐备选" address="莲洞252-72" />
-          <RestaurantCard icon="🏮" name="全国大排档" desc="大排档，任意晚上" address="莲洞10街4" />
-          <RestaurantCard icon="☕" name="Hugely Jeju" desc="咖啡甜品，任意下午" address="Heungun-gil 83" />
-          <RestaurantCard icon="🐕" name="济州小狗咖啡店" desc="撸狗首选" />
-          <RestaurantCard icon="🛥️" name="M1971 Yacht" desc="游艇日落，需半天" address="大静邑" />
-          <RestaurantCard icon="🏖️" name="狭才海水浴场" desc="替换D1涯月海滩" address="Hallim-eup" />
-        </div>
+        {restaurants.length > 0 && (
+          <>
+            <h3 style={{ fontSize: '16px', fontWeight: 900, color: colors.primary, letterSpacing: '1px', marginBottom: '10px', fontFamily: typography.fontDisplay }}>
+              🍽️ 备选方案
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              {restaurants.map((r, i) => (
+                <RestaurantCard key={i} icon={r.icon} name={r.name} desc={r.desc} address={r.address} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

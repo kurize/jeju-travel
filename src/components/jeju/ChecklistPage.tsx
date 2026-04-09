@@ -1,138 +1,104 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { colors, typography, radius } from '@/lib/theme';
 import ChecklistHeader from './ChecklistHeader';
 import ReminderBanner from './ReminderBanner';
 import ChecklistCard, { ChecklistCategory } from './ChecklistCard';
 import JejuBanner from './JejuBanner';
+import {
+  getChecklistCategories,
+  getChecklistItems,
+  getChecklistChecks,
+  toggleChecklistItem,
+} from '@/lib/trips';
+import type { ChecklistCategoryRecord, ChecklistItemRecord } from '@/lib/types';
 
-interface ChecklistItemData {
-  id: string;
-  label: string;
-  checked: boolean;
-}
-
-interface CategoryData {
+interface CategoryWithItems {
   category: ChecklistCategory;
   title: string;
   icon: string;
   borderColor: string;
-  items: ChecklistItemData[];
+  items: { id: string; label: string; checked: boolean }[];
 }
 
 const MY_NAME_KEY = 'jeju-checklist-myname';
-const OLD_STATE_KEY = 'jeju-checklist-state';
 
-function getStateKey(name: string) {
-  return `jeju-checklist-${name}`;
+interface ChecklistPageProps {
+  tripId: string;
 }
 
-const initialCategories: CategoryData[] = [
-  {
-    category: 'documents', title: '证件与文件', icon: '📋', borderColor: colors.cardDocuments,
-    items: [
-      { id: 'doc-1', label: '护照（有效期6个月以上）', checked: false },
-      { id: 'doc-2', label: 'K-ETA / 免签确认', checked: false },
-      { id: 'doc-3', label: '机票行程单（去程+回程）', checked: false },
-      { id: 'doc-4', label: '酒店预订确认单', checked: false },
-      { id: 'doc-5', label: '身份证（国内段备用）', checked: false },
-    ],
-  },
-  {
-    category: 'currency', title: '货币与支付', icon: '💰', borderColor: colors.cardCurrency,
-    items: [
-      { id: 'cur-1', label: '换韩元现金（10-20万/人）', checked: false },
-      { id: 'cur-2', label: '开通信用卡境外支付', checked: false },
-      { id: 'cur-3', label: '만배회센타备现金（95折）', checked: false },
-    ],
-  },
-  {
-    category: 'communication', title: '通讯与导航', icon: '📱', borderColor: colors.cardComms,
-    items: [
-      { id: 'com-1', label: '韩国SIM卡/境外流量', checked: false },
-      { id: 'com-2', label: 'KakaoTaxi 打车', checked: false },
-    ],
-  },
-  {
-    category: 'restaurant', title: '餐厅预约', icon: '🍴', borderColor: colors.cardRestaurant,
-    items: [
-      { id: 'res-1', label: 'Doldam 黑猪肉（4/4晚）', checked: false },
-      { id: 'res-2', label: 'Jeju Madang（4/5晚）', checked: false },
-      { id: 'res-3', label: '만배회센타（4/6晚）', checked: false },
-    ],
-  },
-  {
-    category: 'transportation', title: '交通安排', icon: '🚌', borderColor: colors.cardTransport,
-    items: [
-      { id: 'tra-1', label: '租车/包车确认', checked: false },
-      { id: 'tra-2', label: '牛岛渡轮时刻查询', checked: false },
-      { id: 'tra-3', label: '机场→酒店交通确认', checked: false },
-    ],
-  },
-  {
-    category: 'packing', title: '行李清单', icon: '🧳', borderColor: colors.cardPacking,
-    items: [
-      { id: 'pak-1', label: '春季外套/风衣', checked: false },
-      { id: 'pak-2', label: '轻便运动鞋', checked: false },
-      { id: 'pak-3', label: '防晒霜 + 墨镜', checked: false },
-      { id: 'pak-4', label: '雨伞/轻便雨衣', checked: false },
-      { id: 'pak-5', label: '充电宝', checked: false },
-      { id: 'pak-6', label: '转换插头（德标圆孔）', checked: false },
-    ],
-  },
-];
-
-function loadSavedState(name: string): Record<string, boolean> {
-  if (typeof window === 'undefined') return {};
-  try {
-    const saved = localStorage.getItem(getStateKey(name));
-    return saved ? JSON.parse(saved) : {};
-  } catch { return {}; }
-}
-
-function applyState(cats: CategoryData[], saved: Record<string, boolean>): CategoryData[] {
-  return cats.map((cat) => ({
-    ...cat,
-    items: cat.items.map((item) => ({ ...item, checked: saved[item.id] ?? false })),
-  }));
-}
-
-export default function ChecklistPage() {
+export default function ChecklistPage({ tripId }: ChecklistPageProps) {
   const [myName, setMyName] = useState<string | null>(null);
   const [inputName, setInputName] = useState('');
-  const [categories, setCategories] = useState(initialCategories);
+  const [categories, setCategories] = useState<CategoryWithItems[]>([]);
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // 读取已保存的名字
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    // 迁移旧数据
-    try {
-      const oldData = localStorage.getItem(OLD_STATE_KEY);
-      const oldName = localStorage.getItem(MY_NAME_KEY);
-      if (oldData && oldName && !localStorage.getItem(getStateKey(oldName))) {
-        localStorage.setItem(getStateKey(oldName), oldData);
-        localStorage.removeItem(OLD_STATE_KEY);
-      } else if (oldData && !oldName) {
-        localStorage.removeItem(OLD_STATE_KEY);
-      }
-    } catch {}
-
     const saved = localStorage.getItem(MY_NAME_KEY);
-    if (saved) {
-      setMyName(saved);
-      setCategories(applyState(initialCategories, loadSavedState(saved)));
-    }
+    if (saved) setMyName(saved);
     setReady(true);
   }, []);
+
+  // 从 Supabase 加载清单数据
+  const loadChecklist = useCallback(async (userName: string | null) => {
+    setLoading(true);
+    const cats = await getChecklistCategories(tripId);
+    if (cats.length === 0) {
+      setCategories([]);
+      setLoading(false);
+      return;
+    }
+
+    // 加载所有条目
+    const allItems: (ChecklistItemRecord & { categoryId: string })[] = [];
+    for (const cat of cats) {
+      const items = await getChecklistItems(cat.id);
+      items.forEach((item) => allItems.push({ ...item, categoryId: cat.id }));
+    }
+
+    // 加载勾选状态
+    let checksMap: Record<string, boolean> = {};
+    if (userName) {
+      const itemIds = allItems.map((i) => i.id);
+      if (itemIds.length > 0) {
+        const checks = await getChecklistChecks(itemIds, 'local', userName);
+        checks.forEach((c) => { checksMap[c.item_id] = c.checked; });
+      }
+    }
+
+    // 组装数据
+    const result: CategoryWithItems[] = cats.map((cat) => ({
+      category: cat.category as ChecklistCategory,
+      title: cat.title,
+      icon: cat.icon || '📋',
+      borderColor: cat.border_color || colors.border,
+      items: allItems
+        .filter((item) => item.categoryId === cat.id)
+        .map((item) => ({
+          id: item.id,
+          label: item.label,
+          checked: checksMap[item.id] ?? false,
+        })),
+    }));
+
+    setCategories(result);
+    setLoading(false);
+  }, [tripId]);
+
+  useEffect(() => {
+    if (!ready) return;
+    loadChecklist(myName);
+  }, [ready, myName, loadChecklist]);
 
   const handleSetName = () => {
     const name = inputName.trim();
     if (!name) return;
     localStorage.setItem(MY_NAME_KEY, name);
     setMyName(name);
-    setCategories(applyState(initialCategories, loadSavedState(name)));
   };
 
   const handleChangeName = () => {
@@ -140,10 +106,11 @@ export default function ChecklistPage() {
     setInputName('');
   };
 
-  const handleToggle = (categoryIndex: number, itemId: string) => {
+  const handleToggle = async (categoryIndex: number, itemId: string) => {
     if (!myName) return;
+    // 乐观更新
     setCategories((prev) => {
-      const next = prev.map((cat, idx) => {
+      return prev.map((cat, idx) => {
         if (idx !== categoryIndex) return cat;
         return {
           ...cat,
@@ -152,11 +119,13 @@ export default function ChecklistPage() {
           ),
         };
       });
-      const state: Record<string, boolean> = {};
-      next.forEach((cat) => cat.items.forEach((item) => { state[item.id] = item.checked; }));
-      try { localStorage.setItem(getStateKey(myName), JSON.stringify(state)); } catch {}
-      return next;
     });
+    // 查找当前状态
+    const cat = categories[categoryIndex];
+    const item = cat?.items.find((i) => i.id === itemId);
+    if (item) {
+      await toggleChecklistItem(itemId, !item.checked, 'local', myName);
+    }
   };
 
   const allItems = categories.flatMap((c) => c.items);
@@ -241,6 +210,17 @@ export default function ChecklistPage() {
     );
   }
 
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFF8F0' }}>
+        <div style={{ textAlign: 'center', fontFamily: typography.fontBody }}>
+          <div style={{ fontSize: '32px', marginBottom: '8px' }}>📋</div>
+          <div style={{ fontSize: '14px', color: colors.textSecondary }}>加载清单中...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -258,7 +238,7 @@ export default function ChecklistPage() {
 
       <ChecklistHeader completed={completedItems} total={totalItems} />
 
-      {/* 切换用户（小字） */}
+      {/* 切换用户 */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
         gap: '6px', margin: '0 16px 8px',

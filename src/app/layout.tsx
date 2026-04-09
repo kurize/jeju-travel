@@ -3,13 +3,13 @@ import "./globals.css";
 import HandDrawnFilters from "@/components/jeju/HandDrawnFilters";
 
 export const metadata: Metadata = {
-  title: "济州岛旅行助手",
-  description: "济州岛4天旅行行程、出行清单、实用信息",
+  title: "旅行助手",
+  description: "旅行行程规划、出行清单、实用信息",
   openGraph: {
-    title: "济州岛旅行助手 🌸",
-    description: "4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选",
+    title: "旅行助手 ✈️",
+    description: "规划你的旅行行程 · 出行清单 · 实用信息",
     url: "https://jeju.kurize.com",
-    siteName: "Jeju Travel",
+    siteName: "Travel Planner",
     images: [
       {
         url: "https://jeju.kurize.com/og-image.jpg",
@@ -21,15 +21,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "济州岛旅行助手 🌸",
-    description: "4月济州岛4天行程 · 樱花+美食+海景 · 出行清单一键勾选",
+    title: "旅行助手 ✈️",
+    description: "规划你的旅行行程 · 出行清单 · 实用信息",
     images: ["https://jeju.kurize.com/og-image.jpg"],
   },
   other: {
     "theme-color": "#F5727F",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
-    "apple-mobile-web-app-title": "济州岛旅行助手",
+    "apple-mobile-web-app-title": "旅行助手",
   },
 };
 
