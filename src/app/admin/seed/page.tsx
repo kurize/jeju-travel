@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { seedJejuTrip } from '@/lib/seed';
 
 export default function SeedPage() {
   const [status, setStatus] = useState('');
@@ -11,14 +10,15 @@ export default function SeedPage() {
     setLoading(true);
     setStatus('正在导入种子数据...');
     try {
-      const result = await seedJejuTrip();
-      if (result.success) {
-        setStatus(`✅ 导入成功！Trip ID: ${result.tripId}`);
+      const resp = await fetch('/api/seed', { method: 'POST' });
+      const data = await resp.json();
+      if (resp.ok) {
+        setStatus(`✅ ${data.message}（Trip ID: ${data.tripId}）`);
       } else {
-        setStatus(`❌ 导入失败: ${result.error}`);
+        setStatus(`❌ ${data.message}: ${data.error}`);
       }
     } catch (e) {
-      setStatus(`❌ 错误: ${e}`);
+      setStatus(`❌ 网络错误: ${e}`);
     }
     setLoading(false);
   };
@@ -27,7 +27,7 @@ export default function SeedPage() {
     <div style={{ padding: '40px 20px', fontFamily: 'sans-serif', maxWidth: '400px', margin: '0 auto' }}>
       <h1 style={{ fontSize: '20px', marginBottom: '16px' }}>种子数据管理</h1>
       <p style={{ fontSize: '14px', color: '#666', marginBottom: '20px' }}>
-        点击下方按钮导入济州岛行程模板数据到 Supabase。
+        点击下方按钮导入济州岛行程模板数据到 Supabase（通过服务端执行）。
       </p>
       <button
         onClick={handleSeed}

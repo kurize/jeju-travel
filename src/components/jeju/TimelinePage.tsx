@@ -97,7 +97,7 @@ export default function TimelinePage() {
       )}
 
       {/* 地图 */}
-      <DayMapLazy stops={toMapStops(mapStops)} />
+      {mapStops.length > 0 && <DayMapLazy stops={toMapStops(mapStops)} />}
 
       {/* 时间轴 — 双列布局：左侧轨道 + 右侧内容 */}
       <div style={{ padding: '0 16px' }}>
@@ -172,11 +172,11 @@ export default function TimelinePage() {
                         </div>
                       )}
                       <TimelineActivityCard
-                        title={item.title!}
+                        title={item.title || ''}
                         koreanTitle={item.korean_title || undefined}
                         description={item.description || undefined}
                         typeLabel={item.type_label || undefined}
-                        tags={item.tags}
+                        tags={item.tags || []}
                         learnMoreContent={item.learn_more_content || undefined}
                         learnMoreImage={item.learn_more_image || undefined}
                         bgTint={item.bg_tint || undefined}
@@ -184,9 +184,9 @@ export default function TimelinePage() {
                     </>
                   ) : (
                     <TimelineTransportPill
-                      mode={item.mode!}
-                      duration={item.duration!}
-                      destination={item.destination!}
+                      mode={item.mode || ''}
+                      duration={item.duration || ''}
+                      destination={item.destination || ''}
                     />
                   )}
                 </div>
