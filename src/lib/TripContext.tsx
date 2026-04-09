@@ -7,13 +7,19 @@ import { getTripById, getTripDays, getTimelineItems, getMapStops } from './trips
 interface TripContextValue {
   trip: Trip | null;
   days: TripDay[];
-  // 当前选中日的数据
   timelineItems: TimelineItemRecord[];
   mapStops: MapStopRecord[];
   loading: boolean;
   activeDayIndex: number;
   setActiveDayIndex: (index: number) => void;
   refetch: () => void;
+  // Phase 2: 编辑模式
+  editMode: boolean;
+  setEditMode: (v: boolean) => void;
+  setTimelineItems: React.Dispatch<React.SetStateAction<TimelineItemRecord[]>>;
+  setMapStops: React.Dispatch<React.SetStateAction<MapStopRecord[]>>;
+  setDays: React.Dispatch<React.SetStateAction<TripDay[]>>;
+  refetchDay: () => void;
 }
 
 const TripContext = createContext<TripContextValue>({
@@ -25,6 +31,12 @@ const TripContext = createContext<TripContextValue>({
   activeDayIndex: 0,
   setActiveDayIndex: () => {},
   refetch: () => {},
+  editMode: false,
+  setEditMode: () => {},
+  setTimelineItems: () => {},
+  setMapStops: () => {},
+  setDays: () => {},
+  refetchDay: () => {},
 });
 
 export function TripProvider({ tripId, children }: { tripId: string; children: React.ReactNode }) {
@@ -34,6 +46,7 @@ export function TripProvider({ tripId, children }: { tripId: string; children: R
   const [mapStops, setMapStops] = useState<MapStopRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeDayIndex, setActiveDayIndex] = useState(0);
+  const [editMode, setEditMode] = useState(false);
 
   const fetchTrip = useCallback(async () => {
     setLoading(true);
@@ -52,19 +65,22 @@ export function TripProvider({ tripId, children }: { tripId: string; children: R
   }, [fetchTrip]);
 
   // 当天数据加载
-  useEffect(() => {
+  const loadDayData = useCallback(async () => {
     if (days.length === 0) return;
     const dayId = days[activeDayIndex]?.id;
     if (!dayId) return;
 
-    Promise.all([
+    const [items, stops] = await Promise.all([
       getTimelineItems(dayId),
       getMapStops(dayId),
-    ]).then(([items, stops]) => {
-      setTimelineItems(items);
-      setMapStops(stops);
-    });
+    ]);
+    setTimelineItems(items);
+    setMapStops(stops);
   }, [days, activeDayIndex]);
+
+  useEffect(() => {
+    loadDayData();
+  }, [loadDayData]);
 
   return (
     <TripContext.Provider
@@ -77,6 +93,12 @@ export function TripProvider({ tripId, children }: { tripId: string; children: R
         activeDayIndex,
         setActiveDayIndex,
         refetch: fetchTrip,
+        editMode,
+        setEditMode,
+        setTimelineItems,
+        setMapStops,
+        setDays,
+        refetchDay: loadDayData,
       }}
     >
       {children}
