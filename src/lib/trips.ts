@@ -186,6 +186,22 @@ export async function toggleChecklistItem(
   }
 }
 
+// ==================== 模板搜索 ====================
+
+export async function getTemplateTrips(search?: string): Promise<Trip[]> {
+  let query = supabase.from('trips').select('*').eq('is_template', true);
+  if (search?.trim()) {
+    const s = search.trim();
+    query = query.or(`title.ilike.%${s}%,destination.ilike.%${s}%`);
+  }
+  const { data, error } = await query.order('created_at', { ascending: false });
+  if (error) {
+    console.error('搜索模板失败:', error);
+    return [];
+  }
+  return data || [];
+}
+
 // ==================== 行程信息 ====================
 
 export async function getTripInfo(tripId: string): Promise<TripInfoRecord[]> {

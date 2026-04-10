@@ -89,12 +89,30 @@ export default function TripListPage() {
           </div>
         )}
 
+        {/* 探索模板入口 */}
+        <button
+          onClick={() => router.push('/explore')}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            width: '100%', marginTop: '16px', padding: '14px',
+            borderRadius: radius.lg,
+            border: 'none',
+            backgroundColor: `${colors.lavender}15`,
+            cursor: 'pointer',
+            fontSize: '15px', fontWeight: 700, color: colors.lavender,
+            fontFamily: typography.fontBody,
+            filter: 'url(#sketchy)',
+          }}
+        >
+          🧭 探索更多模板
+        </button>
+
         {/* 新建旅行按钮 */}
         <button
           onClick={() => setShowCreate(true)}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-            width: '100%', marginTop: '16px', padding: '14px',
+            width: '100%', marginTop: '8px', padding: '14px',
             borderRadius: radius.lg,
             border: `2px dashed ${colors.border}`,
             backgroundColor: 'transparent',
